@@ -1,17 +1,18 @@
 import requests
 from bs4 import BeautifulSoup
+import datetime
 
 url = "https://pixelford.com/blog/"
-import random
-random_number = random.randint(1, 999999999999)
-response = requests.get(url, headers = {'user-agent': f'Hello {random_number}'})
+response = requests.get(url, headers = {'user-agent': 'Hello'})
 html = response.content
 soup = BeautifulSoup(html, 'html.parser')
-a_tags = soup.find_all('a', class_="entry-title-link")
+blogs = soup.find_all('article', class_="type-post")
 
-for a_tag in a_tags:
-    print(a_tag.get_text())
+for blog in blogs:
+    title = blog.find('a', class_="entry-title-link").get_text()
     
-titles = list(map(lambda a_tag: a_tag.get_text(), a_tags))
-
-print(titles)
+    blog_datetime_string = blog.find('time', class_="entry-time").get('datetime')
+    blog_datetime = datetime.datetime.fromisoformat(blog_datetime_string)
+    pretty_date = blog_datetime.strftime("%b %d %Y")
+    
+    print(f"{pretty_date} - {title}")
