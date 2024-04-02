@@ -29,8 +29,6 @@ if len(sys.argv) >= 3 and sys.argv[1].lower() == "remove":
     except Exception as e:
         print(e)
         sys.exit(1)
-        
-print(todos)
 
 # Save File
 file = open(file_name, "w")
@@ -42,6 +40,8 @@ if len(todos) == 0:
     print("You have no ToDos :)")
 else:
     print("\nHere's your ToDo list:\n")
+    for x in range(len(todos)):
+        print(f"{x + 1}. {todos[x]}", end="")
 
 # Print Commands
 print("\n*******************************\n")
